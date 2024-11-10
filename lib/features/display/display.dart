@@ -1,79 +1,114 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:face/constants/colors.dart';
 import 'package:flutter/material.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 class ImageDisplayPage extends StatelessWidget {
   final String name;
   final String file;
 
-  const ImageDisplayPage({Key? key, required this.name, required this.file}) : super(key: key);
+  const ImageDisplayPage({Key? key, required this.name, required this.file})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Student information')),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Container(
-            width: screenWidth * 1,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.teal.withOpacity(0.5),
-                  spreadRadius: 5,
-                  blurRadius: 7,
-                  offset: const Offset(0, 3),
-                ),
-              ],
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(15),
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Image.network(
-                      "$file",
-                      width: screenWidth * 0.25,
-                      height: screenWidth * 0.25,
-                      fit: BoxFit.cover,
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      'Fullname: $name',
-                      style: TextStyle(
-                        fontSize: screenWidth * 0.05,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 25),
-                    const Icon(
-                      Icons.check_circle,
-                      color: Colors.teal,
-                      size: 48,
-                    ),
-                    const SizedBox(height: 10),
-                    const Text(
-                      'Verified',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
-              ),
-            ),
+      appBar: AppBar(
+        iconTheme: IconThemeData(color: AppStyles.myColor),
+        backgroundColor: AppStyles.oq,
+        elevation: 0,
+        centerTitle: true,
+        title:  Text(
+          'Candidate information',
+          style: GoogleFonts.exo2(
+            color: AppStyles.myColor,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),
+      body: Center(
+        child: Column(
+          children: [
+            const SizedBox(height: 50),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                LayoutBuilder(
+                  builder: (context, constraints) {
+                    // Using MediaQuery to get the screen width and height
+                    double screenWidth = MediaQuery.of(context).size.width;
+                    double screenHeight = MediaQuery.of(context).size.height;
+
+                    // Adjust the image size based on the screen width
+                    double imageSize = screenWidth * 0.2; // 50% of screen width
+
+                    return Image(
+                      width: imageSize, // Dynamic width
+                      height: imageSize, // Dynamic height
+                      image: AssetImage("assets/verification/verification.png"),
+                    );
+                  },
+                ),
+                 Text(
+                  "Verified",
+                  style: GoogleFonts.exo2(
+                    color: AppStyles.myColor,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 25),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(15),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ClipOval(
+                    child: CachedNetworkImage(
+                      imageUrl: "$file",
+                      width: screenWidth * 0.60,
+                      height: screenWidth * 0.60,
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) =>
+                          const CircularProgressIndicator(),
+                      // Yuklash vaqtida ko'rsatiladigan indikator
+                      errorWidget: (context, url, error) => const Icon(Icons
+                          .error), // Xato yuz berganda ko'rsatiladigan ikonka
+                    ),
+                  ),
+                  const SizedBox(height: 25),
+                  Text(
+                    'Full name',
+                    style: GoogleFonts.exo2(
+                      fontWeight: FontWeight.bold,
+                      color: AppStyles.qora,
+                      fontSize: screenWidth * 0.05,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    '$name',
+                    style: GoogleFonts.exo2(
+                      fontWeight: FontWeight.bold,
+                      color: AppStyles.myColor,
+                      fontSize: screenWidth * 0.08,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+      backgroundColor: AppStyles.oq,
     );
   }
 }
+

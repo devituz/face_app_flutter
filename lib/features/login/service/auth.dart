@@ -44,9 +44,25 @@ class OtpService {
           // Asosiy sahifaga o'tish
           Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (context) => InitialPage()),
+            PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) {
+                return InitialPage(); // Yangi sahifa
+              },
+              transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                // Animatsiya uchun o'zgarish
+                const begin = Offset(0.0, 1.0); // Pastdan yuqoriga ko'tarilish
+                const end = Offset.zero; // Markazga o'tish
+                const curve = Curves.easeInOut;
+
+                var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+                var offsetAnimation = animation.drive(tween);
+
+                return SlideTransition(position: offsetAnimation, child: child);
+              },
+            ),
                 (route) => false, // Oldingi sahifalarni o'chirish
           );
+
         }
       } else {
         // Xato xabarini ko'rsatish

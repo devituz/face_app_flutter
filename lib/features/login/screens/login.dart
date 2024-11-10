@@ -34,7 +34,13 @@ class _LoginScreenState extends State<LoginScreen> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         centerTitle: true,
-        title:  const Text('Login',style: TextStyle(color: Colors.teal),),
+        title: const Text(
+          'Authorization',
+          style: TextStyle(
+            color: AppStyles.myColor,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -42,6 +48,26 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Padding(
+                padding: EdgeInsets.only(bottom: 70),
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    // Using MediaQuery to get the screen width and height
+                    double screenWidth = MediaQuery.of(context).size.width;
+                    double screenHeight = MediaQuery.of(context).size.height;
+
+                    // Adjust the image size based on the screen width
+                    double imageSize = screenWidth * 0.6; // 50% of screen width
+
+                    return Image(
+                      width: imageSize, // Dynamic width
+                      height: imageSize, // Dynamic height
+                      image: AssetImage("assets/login/login.png"),
+                    );
+                  },
+                ),
+              ),
+
               SizedBox(
                 width: screenWidth * 0.8,
                 child: Row(
@@ -49,16 +75,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     Expanded(
                       child: Container(
-
                         height: screenHeight * 0.09,
                         child: TextField(
-                          cursorColor: Colors.teal,
-                          maxLength: 9  , // Maksimal yozilishi mumkin bo'lgan raqamlar soni
+                          cursorColor: AppStyles.myColor,
+                          maxLength: 9,
+                          // Maksimal yozilishi mumkin bo'lgan raqamlar soni
                           controller: phoneController,
 
                           keyboardType: TextInputType.phone,
                           decoration: InputDecoration(
-
                             filled: true,
                             // Ichki rangni to'ldirish uchun
                             fillColor: Colors.white,
@@ -68,21 +93,23 @@ class _LoginScreenState extends State<LoginScreen> {
                             prefixText: '+998 ',
 
                             labelText: 'Phone number',
-                            labelStyle: const TextStyle(color: Colors.teal),
+                            labelStyle:
+                                const TextStyle(color: AppStyles.myColor),
                             enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.teal),
+                              borderSide: BorderSide(color: AppStyles.myColor),
                               // Ichiga kirmasdan oldingi rang
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                             focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.teal, width: 2.0),
+                              borderSide: BorderSide(
+                                  color: AppStyles.myColor, width: 2.0),
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
                             ),
-                            counterText: '', // Hisoblagich matnini ko'rsatmaslik
+                            counterText:
+                                '', // Hisoblagich matnini ko'rsatmaslik
                           ),
                         ),
                       ),
@@ -90,10 +117,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
               ),
-
               SizedBox(
                 width: screenWidth * 0.8,
-
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -101,7 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: SizedBox(
                         height: screenHeight * 0.09,
                         child: TextField(
-                          cursorColor: Colors.teal,
+                          cursorColor: AppStyles.myColor,
                           controller: passwordController,
                           obscureText: _obscureText,
                           decoration: InputDecoration(
@@ -110,14 +135,14 @@ class _LoginScreenState extends State<LoginScreen> {
                             contentPadding: const EdgeInsets.symmetric(
                                 horizontal: 15.0, vertical: 10.0),
                             labelText: 'Password',
-                            labelStyle: TextStyle(color: Colors.teal),
+                            labelStyle: TextStyle(color: AppStyles.myColor),
                             enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.teal),
+                              borderSide: BorderSide(color: AppStyles.myColor),
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                             focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.teal, width: 2.0),
+                              borderSide: BorderSide(
+                                  color: AppStyles.myColor, width: 2.0),
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                             border: OutlineInputBorder(
@@ -128,7 +153,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 _obscureText
                                     ? Icons.visibility
                                     : Icons.visibility_off,
-                                color: Colors.teal,
+                                color: AppStyles.myColor,
                               ),
                               onPressed: _togglePasswordVisibility,
                             ),
@@ -158,7 +183,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: 45, // Tugma balandligi
                         child: ElevatedButton(
                           onPressed: () {
-
                             final phone = '+998' + phoneController.text;
                             final password = passwordController.text;
                             print('Yuborilgan telefon raqami: "$phone" ');
@@ -168,7 +192,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 .verifyOtp(phone, password, context);
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor:  Colors.teal,
+                            backgroundColor: AppStyles.myColor,
                             // Tugma rangi
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(
@@ -186,15 +210,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     loading: () => const CircularProgressIndicator(
-                      color: Colors.teal,
+                      color: AppStyles.myColor,
                     ),
-                    success: () =>SizedBox(
+                    success: () => SizedBox(
                       width: screenWidth * 0.8,
                       child: Container(
                         height: 45, // Tugma balandligi
                         child: ElevatedButton(
                           onPressed: () {
-
                             final phone = '+998' + phoneController.text;
                             final password = passwordController.text;
                             print('Yuborilgan telefon raqami: "$phone" ');
@@ -204,7 +227,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 .verifyOtp(phone, password, context);
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor:  Colors.teal,
+                            backgroundColor: AppStyles.myColor,
                             // Tugma rangi
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(
@@ -227,7 +250,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: 45, // Tugma balandligi
                         child: ElevatedButton(
                           onPressed: () {
-
                             final phone = '+998' + phoneController.text;
                             final password = passwordController.text;
                             print('Yuborilgan telefon raqami: "$phone" ');
@@ -237,7 +259,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 .verifyOtp(phone, password, context);
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor:  Colors.teal,
+                            backgroundColor: AppStyles.myColor,
                             // Tugma rangi
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(
@@ -247,9 +269,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: const Text(
                             'Continue',
                             style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.teal
-                            ),
+                                fontSize: 16, color: AppStyles.myColor),
                           ),
                         ),
                       ),

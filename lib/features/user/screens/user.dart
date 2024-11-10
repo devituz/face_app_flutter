@@ -5,6 +5,7 @@ import 'package:face/features/user/cubit/get/getuser_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class UserPage extends StatefulWidget {
   const UserPage({Key? key}) : super(key: key);
@@ -23,10 +24,7 @@ class _UserPageState extends State<UserPage> {
   }
 
   Future<void> _refresh() async {
-    await Future.wait([
-      context.read<GetuserCubit>().getUser(context),
-    ]);
-    await Future.delayed(Duration(milliseconds: 5));
+    context.read<GetuserCubit>().getUser(context);
   }
 
   @override
@@ -37,25 +35,27 @@ class _UserPageState extends State<UserPage> {
     return Scaffold(
       backgroundColor: AppStyles.oq,
       appBar: AppBar(
+        iconTheme: IconThemeData(color: AppStyles.myColor),
         backgroundColor: AppStyles.oq,
         elevation: 0,
-        title: const Text(
+        title:  Text(
           'My account',
-          style: TextStyle(color: Colors.teal, fontSize: 18),
+          style: GoogleFonts.exo2(color: AppStyles.myColor, fontSize: 18,
+            fontWeight: FontWeight.bold,),
         ),
         centerTitle: true,
       ),
       body: RefreshIndicator(
         backgroundColor: AppStyles.oq,
-        color: Colors.teal,
+        color: AppStyles.myColor,
         onRefresh: () => _refresh(),
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           child: BlocBuilder<GetuserCubit, GetuserState>(
             builder: (context, state) {
               return state.when(
-                initial: () => Text("Welcome! Please fetch your data."),
-                loading: () => Center(
+                initial: () => const Text("Welcome! Please fetch your data."),
+                loading: () => const Center(
                     // child: const CircularProgressIndicator(
                     //   color: Colors.teal,
                     // ),
@@ -72,19 +72,19 @@ class _UserPageState extends State<UserPage> {
                             ? Icon(
                                 FontAwesomeIcons.user,
                                 size: screenWidth * 0.13,
-                                color: Colors.teal,
+                                color: AppStyles.myColor
                               )
                             : ClipOval(
                                 child: CachedNetworkImage(
                                   imageUrl: getuser.image,
                                   placeholder: (context, url) =>
                                       const CircularProgressIndicator(
-                                    color: Colors.teal,
+                                    color: AppStyles.myColor
                                   ),
                                   errorWidget: (context, url, error) => Icon(
                                     FontAwesomeIcons.user,
                                     size: screenWidth * 0.13,
-                                    color: Colors.teal,
+                                    color: AppStyles.myColor
                                   ),
                                   fit: BoxFit.cover,
                                   width: screenWidth * 0.26,
@@ -99,7 +99,7 @@ class _UserPageState extends State<UserPage> {
                           borderRadius: BorderRadius.circular(16),
                         ),
                         elevation: 5,
-                        shadowColor: Colors.tealAccent.withOpacity(0.3),
+                        shadowColor: AppStyles.myColor.withOpacity(0.3),
                         color: Colors.white,
                         child: Padding(
                           padding: EdgeInsets.all(screenWidth * 0.05),
@@ -107,13 +107,19 @@ class _UserPageState extends State<UserPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               _buildInfoRow(
-                                icon: FontAwesomeIcons.user,
+                                icon: FontAwesomeIcons.userTie,
                                 label: 'Full Name',
                                 value: getuser.name, // Display user's name
                                 iconSize: screenWidth * 0.06,
                               ),
                               _buildInfoRow(
-                                icon: FontAwesomeIcons.envelope,
+                                icon: FontAwesomeIcons.phone,
+                                label: 'Phone Number',
+                                value: getuser.phone, // Display user's phone
+                                iconSize: screenWidth * 0.06,
+                              ),
+                              _buildInfoRow(
+                                icon: FontAwesomeIcons.envelopeCircleCheck,
                                 label: 'Email',
                                 value: getuser.email, // Display user's email
                                 iconSize: screenWidth * 0.06,
@@ -131,7 +137,7 @@ class _UserPageState extends State<UserPage> {
                                     isPasswordVisible
                                         ? Icons.visibility
                                         : Icons.visibility_off,
-                                    color: Colors.teal,
+                                    color: AppStyles.myColor,
                                   ),
                                   onPressed: () {
                                     setState(() {
@@ -139,12 +145,6 @@ class _UserPageState extends State<UserPage> {
                                     });
                                   },
                                 ),
-                              ),
-                              _buildInfoRow(
-                                icon: FontAwesomeIcons.phone,
-                                label: 'Phone Number',
-                                value: getuser.phone, // Display user's phone
-                                iconSize: screenWidth * 0.06,
                               ),
                             ],
                           ),
@@ -156,7 +156,7 @@ class _UserPageState extends State<UserPage> {
                           _showLogoutDialog(context);
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.teal,
+                          backgroundColor: AppStyles.myColor,
                           padding: EdgeInsets.symmetric(
                             vertical: screenHeight * 0.02,
                             horizontal: screenWidth * 0.3,
@@ -165,16 +165,16 @@ class _UserPageState extends State<UserPage> {
                             borderRadius: BorderRadius.circular(25),
                           ),
                         ),
-                        child: const Text(
+                        child:  Text(
                           'Logout',
-                          style: TextStyle(fontSize: 16, color: Colors.white),
+                          style: GoogleFonts.exo2(fontSize: 16, color: Colors.white,fontWeight: FontWeight.bold),
                         ),
                       ),
                     ],
                   );
                 },
                 failure: (error) => Center(
-                    child: Text("Error: $error")), // Display error message
+                    child: Text("Error: $error",)), // Display error message
               );
             },
           ),
@@ -194,7 +194,7 @@ class _UserPageState extends State<UserPage> {
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: Row(
         children: [
-          Icon(icon, color: Colors.teal, size: iconSize),
+          Icon(icon, color: AppStyles.myColor, size: iconSize),
           SizedBox(width: iconSize * 0.7),
           Expanded(
             child: Column(
@@ -202,12 +202,12 @@ class _UserPageState extends State<UserPage> {
               children: [
                 Text(
                   label,
-                  style: const TextStyle(fontSize: 12, color: Colors.black54),
+                  style:   GoogleFonts.exo2(fontSize: 12, color: Colors.black54),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   value,
-                  style: const TextStyle(
+                  style:   GoogleFonts.exo2(
                       fontSize: 16, fontWeight: FontWeight.w500),
                 ),
               ],
@@ -232,42 +232,29 @@ class _UserPageState extends State<UserPage> {
           titlePadding: EdgeInsets.zero,
           title: Column(
             children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.teal.shade100,
-                  borderRadius:
-                      const BorderRadius.vertical(top: Radius.circular(20)),
-                ),
-                padding: EdgeInsets.all(screenWidth * 0.05),
-                child: Column(
-                  children: [
-                    Icon(
-                      Icons.logout,
-                      color: Colors.teal.shade700,
-                      size: screenWidth * 0.15,
+              Column(
+                children: [
+                  const SizedBox(height: 10),
+                  Text(
+                    "Confirm Logout",
+                    style: GoogleFonts.exo2(
+                      fontSize: screenWidth * 0.05,
+                      fontWeight: FontWeight.bold,
+                      color: AppStyles.myColor,
                     ),
-                    const SizedBox(height: 10),
-                    Text(
-                      "Confirm Logout",
-                      style: TextStyle(
-                        fontSize: screenWidth * 0.05,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.teal.shade800,
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ],
           ),
           content: Padding(
             padding: EdgeInsets.all(screenWidth * 0.05),
-            child: Text(
+            child:  Text(
               "Are you sure you want to log out?",
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: screenWidth * 0.04,
-                color: Colors.grey.shade700,
+              style: GoogleFonts.exo2(
+                fontWeight: FontWeight.bold,
+                color: AppStyles.myColor,
               ),
             ),
           ),
@@ -282,13 +269,16 @@ class _UserPageState extends State<UserPage> {
                     style: ElevatedButton.styleFrom(
                       padding:
                           EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
-                      backgroundColor: Colors.teal.shade100,
-                      foregroundColor: Colors.teal.shade800,
+                      backgroundColor: Colors.blue.shade100,
+                      foregroundColor: AppStyles.myColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    child: const Text("Cancel"),
+                    child:  Text("Cancel",  style: GoogleFonts.exo2(
+                      fontWeight: FontWeight.bold,
+                      color: AppStyles.myColor,
+                    ),),
                   ),
                   ElevatedButton(
                     onPressed: () {
@@ -297,13 +287,16 @@ class _UserPageState extends State<UserPage> {
                     style: ElevatedButton.styleFrom(
                       padding:
                           EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
-                      backgroundColor: Colors.teal.shade700,
+                      backgroundColor: AppStyles.myColor,
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    child: const Text("Logout"),
+                    child:  Text("Logout",  style: GoogleFonts.exo2(
+                      fontWeight: FontWeight.bold,
+                      color: AppStyles.oq,
+                    )),
                   ),
                 ],
               ),

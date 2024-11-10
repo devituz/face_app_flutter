@@ -15,7 +15,7 @@
     <application
         android:requestLegacyExternalStorage="true"
 
-        android:label="face"
+        android:label="Face ID"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

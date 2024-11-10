@@ -3,6 +3,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class AppStyles {
+  static const Color myColor = Color(0xFF0060A5);
+
   static const Color kok = Colors.blue;
   static const Color yashil = Color(0xFF00885A);
   static const Color yashilroq = Color(0xFFDAEDE7);

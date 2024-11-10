@@ -2,23 +2,11 @@
 class Assets {
   Assets._();
 
-  static const String constantsColors = 'lib/constants/colors.dart';
-  static const String constantsControllers = 'lib/constants/controllers.dart';
-  static const String constantsHandleDioException = 'lib/constants/handleDioException.dart';
-  static const String constantsHelpers = 'lib/constants/helpers.dart';
-  static const String constantsSizedbox = 'lib/constants/sizedbox.dart';
-  static const String constantsStrings = 'lib/constants/strings.dart';
-  static const String cubitAuthCubit = 'lib/features/login/cubit/auth_cubit.dart';
-  static const String cubitAuthState = 'lib/features/login/cubit/auth_state.dart';
-  static const String cubitPostCubit = 'lib/features/camera/presentation/cubit/post_cubit.dart';
-  static const String cubitPostState = 'lib/features/camera/presentation/cubit/post_state.dart';
-  static const String displayDisplay = 'lib/features/display/display.dart';
-  static const String generatedAssets = 'lib/generated/assets.dart';
-  static const String homeHome = 'lib/features/home/home.dart';
-  static const String libMain = 'lib/main.dart';
-  static const String presentationScreensCamera = 'lib/features/camera/presentation/screens/login.dart';
-  static const String screensCamera = 'lib/features/login/screens/login.dart';
-  static const String serviceAuth = 'lib/features/login/service/auth.dart';
-  static const String serviceCamera = 'lib/features/camera/presentation/service/login.dart';
+  static const String constants = 'lib/constants/.env';
+  static const String facedidFace = 'assets/facedid/face.png';
+  static const String facedidScan = 'assets/facedid/scan.png';
+  static const String facedidScanning = 'assets/facedid/scanning.png';
+  static const String loginLogin = 'assets/login/login.png';
+  static const String verificationVerification = 'assets/verification/verification.png';
 
 }

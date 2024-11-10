@@ -39,11 +39,14 @@ dependencies:
   permission_handler: ^11.3.1
   path_provider: ^2.1.4
   photo_manager: ^3.6.1
+  mockito: ^5.4.4
   image: ^4.3.0
   flutter_local_notifications: ^17.2.4
   image_cropper: ^8.0.2
   font_awesome_flutter: ^10.7.0
   dio: ^5.5.0+1
+  google_fonts: ^6.2.1
+  heroicons: ^0.10.0
   shared_preferences: ^2.3.1
   flutter_bloc: ^8.1.6
   freezed: ^2.5.7
@@ -110,4 +113,7 @@ flutter:
   # see https://flutter.dev/to/font-from-package
   assets:
     - lib/constants/.env
+    - assets/login/
+    - assets/facedid/
+    - assets/verification/
 

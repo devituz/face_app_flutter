@@ -5,7 +5,10 @@ import 'package:face/main2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:face/features/camera/presentation/cubit/post_cubit.dart';
-import 'dart:math';
+import 'package:google_fonts/google_fonts.dart';
+
+import '../../../../constants/colors.dart';
+
 
 List<CameraDescription> cameras = [];
 CameraController? _controller;
@@ -76,15 +79,16 @@ class _CameraPageState extends State<CameraPage> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.teal),
+        iconTheme: const IconThemeData(color: AppStyles.myColor,),
         centerTitle: true,
         backgroundColor: Colors.white,
-        title: const Text(
+        title:  Text(
           'Face recognition',
-          style: TextStyle(color: Colors.teal),
+          style: GoogleFonts.exo2(color: AppStyles.myColor,),
         ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
@@ -100,44 +104,49 @@ class _CameraPageState extends State<CameraPage> {
             if (snapshot.connectionState == ConnectionState.done) {
               return Stack(
                 children: [
-                  Positioned(
-                    bottom: MediaQuery.of(context).size.height * 0.75, // Ekran balandligining 10% o'rnida joylashadi
-                    left: 0,
-                    right: 0,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Builder(
-                        builder: (context) {
-                          // MediaQuery yordamida ekran kengligi va balandligiga qarab matn o'lchamini belgilash
-                          double screenWidth = MediaQuery.of(context).size.width;
 
-                          return Text(
-                            'Please look at the camera! Come closer. Keep your face within the circle and stay still!',
-                            style: TextStyle(
-                              fontSize: screenWidth < 600 ? 14 : 16, // Ekran kengligi 600px dan kichik bo'lsa font o'lchamini 14 qilish
-                              color: Colors.red,
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.05, // 5% of screen height
+                      left: MediaQuery.of(context).size.width * 0.12, // 10% of screen width
+                    ),
+                    child: Builder(
+                      builder: (context) {
+                        double screenWidth = MediaQuery.of(context).size.width;
+
+                        return Column(
+                          children: [
+                            Image(
+                              width: screenWidth * 0.15, // 15% of screen width
+                              height: screenWidth * 0.15, // 15% of screen width
+                              image: const AssetImage("assets/facedid/scanning.png"),
                             ),
-                            textAlign: TextAlign.center,
-                          );
-                        },
-                      ),
+                            const SizedBox(height: 15),
+                            Text(
+                              'Please keep the face within the circle',
+                              style: GoogleFonts.exo2(
+                                fontSize: screenWidth < 600 ? 16 : 18, // Font size changes based on screen width
+                                color: Colors.red,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        );
+                      },
                     ),
                   ),
-                  Padding(
 
-                    padding: EdgeInsets.only(bottom: 150),
-                    child: ClipPath(
-                      clipper: CircleClipper(),
-                      child: Transform(
-                        alignment: Alignment.center,
-                        transform: selectedCameraIdx ==
-                                1 // Assuming index 1 is the front camera
-                            ? Matrix4.rotationY(3.14159) // Flip for front camera
-                            : Matrix4.identity(),
-                        // No transformation for back camera
-                        child: CameraPreview(
-                          _controller!,
-                        ),
+                  ClipPath(
+                    clipper: CircleClipper(),
+                    child: Transform(
+                      alignment: Alignment.center,
+                      transform: selectedCameraIdx ==
+                              1 // Assuming index 1 is the front camera
+                          ? Matrix4.rotationY(3.14159) // Flip for front camera
+                          : Matrix4.identity(),
+                      // No transformation for back camera
+                      child: CameraPreview(
+                        _controller!,
                       ),
                     ),
                   ),
@@ -160,10 +169,10 @@ class _CameraPageState extends State<CameraPage> {
                             width: MediaQuery.of(context).size.width * 0.15, // Button width relative to screen width
                             height: MediaQuery.of(context).size.width * 0.15, // Button height relative to screen width
                             decoration: BoxDecoration(
-                              color: Colors.teal,
+                              color: AppStyles.myColor,
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.teal.withOpacity(0.5),
+                                  color: AppStyles.myColor.withOpacity(0.5),
                                   spreadRadius: 2,
                                   blurRadius: 5,
                                   offset: Offset(0, 3),
@@ -173,7 +182,7 @@ class _CameraPageState extends State<CameraPage> {
                             ),
                             child: FloatingActionButton(
                               heroTag: 'flash',
-                              backgroundColor: Colors.teal,
+                              backgroundColor: AppStyles.myColor,
                               onPressed: _toggleFlash,
                               child: Icon(
                                 isFlashOn ? Icons.flash_on : Icons.flash_off,
@@ -190,7 +199,7 @@ class _CameraPageState extends State<CameraPage> {
                               color: Colors.teal,
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.teal.withOpacity(0.5),
+                                  color: AppStyles.myColor.withOpacity(0.5),
                                   spreadRadius: 2,
                                   blurRadius: 5,
                                   offset: Offset(0, 3),
@@ -200,7 +209,7 @@ class _CameraPageState extends State<CameraPage> {
                             ),
                             child: FloatingActionButton(
                               heroTag: 'capture',
-                              backgroundColor: Colors.teal,
+                              backgroundColor: AppStyles.myColor,
                               onPressed: _takePicture,
                               child: const Icon(
                                 Icons.camera_alt,
@@ -227,7 +236,7 @@ class _CameraPageState extends State<CameraPage> {
                             ),
                             child: FloatingActionButton(
                               heroTag: 'switch',
-                              backgroundColor: Colors.teal,
+                              backgroundColor: AppStyles.myColor,
                               onPressed: _switchCamera,
                               child: const Icon(
                                 Icons.switch_camera,
@@ -249,11 +258,23 @@ class _CameraPageState extends State<CameraPage> {
                           // Navigate to image display page
                           Navigator.pushReplacement(
                             context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  ImageDisplayPage(name: name, file: file),
+                            PageRouteBuilder(
+                              pageBuilder: (context, animation, secondaryAnimation) {
+                                return ImageDisplayPage(name: name, file: file); // Yangi sahifa
+                              },
+                              transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                                const begin = Offset(0.0, 1.0); // Pastdan tepaga ochish
+                                const end = Offset.zero;
+                                const curve = Curves.easeInOut;
+
+                                var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+                                var offsetAnimation = animation.drive(tween);
+
+                                return SlideTransition(position: offsetAnimation, child: child);
+                              },
                             ),
                           );
+
                         },
                         error: (message) {
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -264,7 +285,7 @@ class _CameraPageState extends State<CameraPage> {
                               margin: const EdgeInsets.all(16),
                               content: Text(
                                 message,
-                                style: const TextStyle(
+                                style:  GoogleFonts.exo2(
                                   fontSize: 18,
                                   color: Colors.white,
                                 ),
@@ -281,10 +302,23 @@ class _CameraPageState extends State<CameraPage> {
                           WidgetsBinding.instance.addPostFrameCallback((_) {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                builder: (context) => const LoadingScreen(),
+                              PageRouteBuilder(
+                                pageBuilder: (context, animation, secondaryAnimation) {
+                                  return const LoadingScreen(); // Yangi sahifa
+                                },
+                                transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                                  const begin = Offset(0.0, 1.0); // Pastdan tepaga ochish
+                                  const end = Offset.zero;
+                                  const curve = Curves.easeInOut;
+
+                                  var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+                                  var offsetAnimation = animation.drive(tween);
+
+                                  return SlideTransition(position: offsetAnimation, child: child);
+                                },
                               ),
                             );
+
                           });
                           return const SizedBox
                               .shrink(); // Do not show anything while loading
@@ -299,7 +333,7 @@ class _CameraPageState extends State<CameraPage> {
             } else {
               return const Center(
                   child: CircularProgressIndicator(
-                color: Colors.teal,
+                color: AppStyles.myColor,
               ));
             }
           },
@@ -318,7 +352,7 @@ class LoadingScreen extends StatelessWidget {
     return const Scaffold(
       body: Center(
         child: CircularProgressIndicator(
-          color: Colors.teal,
+          color: AppStyles.myColor,
         ),
       ),
     );

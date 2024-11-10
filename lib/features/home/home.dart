@@ -3,6 +3,7 @@ import 'package:face/constants/colors.dart';
 import 'package:face/features/home/cubit/getstudents/getmestudent_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -11,6 +12,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
 
+
   @override
   void initState() {
     context.read<GetmestudentCubit>().GetmeStudents(context);
@@ -18,10 +20,7 @@ class _MainPageState extends State<MainPage> {
   }
 
   Future<void> _refresh() async {
-    await Future.wait([
-      context.read<GetmestudentCubit>().GetmeStudents(context),
-    ]);
-    await Future.delayed(const Duration(milliseconds: 5));
+    context.read<GetmestudentCubit>().GetmeStudents(context);
   }
 
   @override
@@ -29,14 +28,14 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       backgroundColor: AppStyles.oq,
       body: RefreshIndicator(
-        backgroundColor: AppStyles.oq,
-        color: Colors.teal,
+        backgroundColor: AppStyles.myColor,
+        color: AppStyles.myColor,
         onRefresh: () => _refresh(),
         child: BlocBuilder<GetmestudentCubit, GetmestudentState>(
           builder: (context, state) {
             return state.when(
               initial: ()=> const Center(child: Text("Initial"),),
-              loading: () => const Center(child: CircularProgressIndicator(color: Colors.teal)),
+              loading: () => const Center(child: CircularProgressIndicator(color:AppStyles.myColor,)),
               success: (successState) => CustomScrollView(
                 physics: const BouncingScrollPhysics(),
                 slivers: [
@@ -44,16 +43,24 @@ class _MainPageState extends State<MainPage> {
                     expandedHeight: 80,
                     flexibleSpace: FlexibleSpaceBar(
                       title: Text(
-                        'Total Students: ${successState.results.length}',
-                        style: const TextStyle(
+                        'Scanned Candidates: ${successState.results.length}',
+                        style:  GoogleFonts.exo2(
                           color: Colors.white,
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       centerTitle: true,
+                      background: Container(
+                        decoration: const BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [Colors.blue, AppStyles.myColor], // Gradient colors
+                          ),
+                        ),
+                      ),
                     ),
-                    backgroundColor: Colors.teal,
+
+                    backgroundColor: AppStyles.myColor,
                     pinned: true,
                   ),
                   SliverList(
@@ -65,17 +72,17 @@ class _MainPageState extends State<MainPage> {
                             padding: const EdgeInsets.all(10),
                             margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                             decoration: BoxDecoration(
-                              color: Colors.teal,
+                              color: AppStyles.myColor,
                               borderRadius: BorderRadius.circular(15),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.teal.withOpacity(0.3),
+                                  color: Colors.blue.withOpacity(0.3),
                                   blurRadius: 10,
                                   offset: const Offset(0, 5),
                                 ),
                               ],
                               gradient: const LinearGradient(
-                                colors: [Colors.teal, AppStyles.yashilsifat],
+                                colors: [Colors.blue, AppStyles.myColor,],
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
                               ),
@@ -83,9 +90,15 @@ class _MainPageState extends State<MainPage> {
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
+                                const SizedBox(width: 5),
+                                Text(
+                                  '${index + 1}',
+                                  style:  GoogleFonts.exo2(color: Colors.white,fontSize: 20),
+                                ),
+                                const SizedBox(width: 13),
                                 CircleAvatar(
                                   radius: 30,
-                                  backgroundColor: Colors.grey.shade200,
+                                  backgroundColor: Colors.blue.shade200,
                                   child: CachedNetworkImage(
 
                                     imageUrl: student.searchImagePath.toString(),
@@ -98,15 +111,15 @@ class _MainPageState extends State<MainPage> {
                                         ),
                                       ),
                                     ),
-                                    placeholder: (context, url) => const CircularProgressIndicator(color: Colors.teal,),
+                                    placeholder: (context, url) => const CircularProgressIndicator(color: AppStyles.myColor,),
                                     errorWidget: (context, url, error) => const Icon(Icons.error),
                                   ),
                                 ),
-                                const SizedBox(width: 10),
+                                const SizedBox(width: 13),
                                 Expanded(
                                   child: Text(
                                     student.studentName.toString(),
-                                    style: const TextStyle(
+                                    style: GoogleFonts.exo2(
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.white,
@@ -123,7 +136,7 @@ class _MainPageState extends State<MainPage> {
                   ),
                 ],
               ),
-              failure: (failureState) => Center(child: Text(" No students available")),
+              failure: (failureState) => Center(child: Text("No candidates available",  style:  GoogleFonts.exo2(color: Colors.white,fontSize: 20),)),
             );
           },
         ),

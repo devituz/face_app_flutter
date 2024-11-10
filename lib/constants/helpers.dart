@@ -54,8 +54,22 @@ class Helpers {
     await prefs.remove('auth_token');
     Navigator.pushAndRemoveUntil(
       context,
-      MaterialPageRoute(builder: (context) =>  InitialPage()),
-          (route) => false,
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) {
+          return InitialPage(); // Yangi sahifa (InitialPage)
+        },
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          const begin = Offset(0.0, 1.0); // Pastdan tepaga ochish
+          const end = Offset.zero;
+          const curve = Curves.easeInOut;
+
+          var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+          var offsetAnimation = animation.drive(tween);
+
+          return SlideTransition(position: offsetAnimation, child: child);
+        },
+      ),
+          (route) => false, // Oldingi sahifalarni o'chirish
     );
     debugPrint('Auth token removed');
   }

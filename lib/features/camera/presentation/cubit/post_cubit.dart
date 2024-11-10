@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:face/features/camera/presentation/service/camera.dart';
 import 'package:vibration/vibration.dart';
+import 'package:flutter/foundation.dart'; // kIsWeb uchun
 
 part 'post_state.dart';
 part 'post_cubit.freezed.dart';
@@ -17,6 +18,13 @@ class PostCubit extends Cubit<PostState> {
     required File file,
     required BuildContext context,
   }) async {
+
+    if (kIsWeb) {
+      emit(PostState.error('File upload is not supported on the web.'));
+      return;
+    }
+
+
     emit(const PostState.loading());
 
     try {
@@ -33,12 +41,17 @@ class PostCubit extends Cubit<PostState> {
 
     } catch (e) {
       Navigator.pop(context);
-      debugPrint("Xatosi: ${e.toString()}");
-      emit(PostState.error('Студент не найден.'));
+      debugPrint("Error: ${e.toString()}");
+      emit(const PostState.error('Candidate not found'));
+    }
+    if (!kIsWeb) {
       await Vibration.vibrate(
         pattern: [0, 500, 100, 500],
         intensities: [255, 255],
       );
+    } else {
+      print("Vibration is not supported on the web.");
     }
+
   }
 }
