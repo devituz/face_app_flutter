@@ -32,6 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        foregroundColor: Colors.white,
         backgroundColor: Colors.white,
         centerTitle: true,
         title: const Text(
@@ -94,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                             labelText: 'Phone number',
                             labelStyle:
-                                const TextStyle(color: AppStyles.myColor),
+                            const TextStyle(color: AppStyles.myColor),
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(color: AppStyles.myColor),
                               // Ichiga kirmasdan oldingi rang
@@ -109,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                             counterText:
-                                '', // Hisoblagich matnini ko'rsatmaslik
+                            '', // Hisoblagich matnini ko'rsatmaslik
                           ),
                         ),
                       ),

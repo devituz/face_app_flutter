@@ -44,7 +44,7 @@ class GetmestudentsService{
       // Helpers.showCustomSnackBar(context, errorMessage);
       throw Exception('Failed to load categories'); // Xatolik holatida istisno tashlash
     } catch (e) {
-      Helpers.showCustomSnackBar(context, 'Noma\'lum xato');
+      Helpers.showCustomSnackBar(context, 'Unknown error');
       print('Noma\'lum xato: $e');
       throw Exception('Failed to load categories'); // Xatolik holatida istisno tashlash
     }

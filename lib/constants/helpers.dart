@@ -1,6 +1,7 @@
 import 'package:face/features/login/screens/login.dart';
 import 'package:face/main.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Helpers {
@@ -75,7 +76,27 @@ class Helpers {
   }
 
 
+  static String formatDate(String dateString) {
+    try {
+      // Parse the string into a DateTime object (assumes it's in UTC)
+      DateTime parsedDate = DateTime.parse(dateString).toLocal();
 
+      // Check if the time is AM or PM and format accordingly
+      String formattedDate;
+      if (parsedDate.hour >= 12) {
+        // If it's PM, format in 24-hour format
+        formattedDate = DateFormat('MMM d, yyyy HH:mm').format(parsedDate);
+      } else {
+        // If it's AM, format in 12-hour format (keeping as is)
+        formattedDate = DateFormat('MMM d, yyyy h:mm a').format(parsedDate);
+      }
+
+      return formattedDate; // Return the formatted date string
+    } catch (e) {
+      // In case of error, return a fallback message
+      return 'Invalid Date';
+    }
+  }
 
 
 }

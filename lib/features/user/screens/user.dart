@@ -226,6 +226,7 @@ class _UserPageState extends State<UserPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          backgroundColor: AppStyles.oq,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),

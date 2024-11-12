@@ -14,22 +14,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'dart:io';
 import 'package:permission_handler/permission_handler.dart';
-
 import 'features/bottomnavigationbar/presentation/screens/bottomnavigationbar_screen.dart';
 
 
 void main() async {
   CachedNetworkImage.logLevel = CacheManagerLogLevel.debug;
   WidgetsFlutterBinding.ensureInitialized();
-  await _requestPermissions(); // Request permissions
   cameras = await availableCameras(); // Get available cameras
+
+
   runApp(MyApp());
   await dotenv.load(fileName: 'lib/constants/.env');
 }
 
-Future<void> _requestPermissions() async {
-  await Permission.camera.request();
-}
+// Future<void> _requestPermissions() async {
+//   await Permission.camera.request();
+// }
 
 class MyApp extends StatelessWidget {
   @override
@@ -57,8 +57,28 @@ class MyApp extends StatelessWidget {
 
 
 
-class InitialPage extends StatelessWidget {
+class InitialPage extends StatefulWidget {
   const InitialPage({super.key});
+
+  @override
+  _InitialPageState createState() => _InitialPageState();
+}
+
+class _InitialPageState extends State<InitialPage> {
+  @override
+  void initState() {
+    super.initState();
+    requestPermissions();
+  }
+
+  Future<void> requestPermissions() async {
+    await [
+      Permission.camera,
+      Permission.storage,
+      Permission.microphone,
+    ].request();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +88,7 @@ class InitialPage extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasData && snapshot.data == true) {
-          return MyBottomNavigationBar();
+          return const MyBottomNavigationBar();
         } else {
           return const LoginScreen();
         }

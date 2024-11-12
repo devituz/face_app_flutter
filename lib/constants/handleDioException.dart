@@ -10,80 +10,77 @@ Future<String> handleDioException(DioException e, BuildContext context) async {
     switch (statusCode) {
       case 400:
         final errorMessage =
-            e.response?.data['message'] as String? ?? 'No\'maydon xatosi';
+            e.response?.data['message'] as String? ?? 'Field error';
         message = '$errorMessage';
-        print('Ruxsat etilmagans: ${e.response?.data}');
+        print('Unauthorized: ${e.response?.data}');
         break;
       case 401:
-        message = e.response?.data['message'] ?? 'Xatolik yuz berdi'; // To'g'ridan-to'g'ri 'message' ni olish
-        print('Message: $message'); // Yangi 'message' ni chop etish
+        message = e.response?.data['message'] ?? 'An error occurred'; // Directly taking 'message'
+        print('Message: $message'); // Print the new 'message'
         break;
 
       case 403:
-        message = 'Ta’qiqlangan:';
-        print('Ta’qiqlangan: ${e.response?.data}');
+        message = 'Forbidden';
+        print('Forbidden: ${e.response?.data}');
         break;
       case 404:
-        message = 'Topilmadi';
-        print('Topilmadi: ${e.response?.data}');
+        message = 'Not found';
+        print('Not found: ${e.response?.data}');
         break;
       case 422:
-        message = "Inputni to'ldirish majburiy";
-        print('Topilmadi: ${e.response?.data}');
+        message = "Input is required";
+        print('Not found: ${e.response?.data}');
         break;
       case 429:
         final responseData = e.response?.data as Map<String, dynamic>?;
         message =
-            responseData?['message'] ?? 'Kutilmagan status kodi: $statusCode';
-        print('Topilmadi: ${e.response?.data}');
+            responseData?['message'] ?? 'Unexpected status code: $statusCode';
+        print('Not found: ${e.response?.data}');
         break;
       case 500:
-        message = 'Login redirekt';
+        message = 'Login redirect';
         print(
-            'Ichki server xatosi: ${e.response?.statusCode} ${e.response
-                ?.data} ');
+            'Internal server error: ${e.response?.statusCode} ${e.response?.data}');
         if (e.response?.data.contains('Route [login] not defined')) {
           await Helpers.removeToken(context);
 
-
-          print(
-              'Login yo\'riqnomasining aniqlanmaganligi: ${e.response?.data}');
+          print('Undefined login route: ${e.response?.data}');
           // Redirect to login or handle accordingly
         }
         break;
       default:
-        message = 'Kutilmagan status kodi';
-        print('Kutilmagan status kodi: $statusCode ${e.response?.data}');
+        message = 'Unexpected status code';
+        print('Unexpected status code: $statusCode ${e.response?.data}');
         break;
     }
   } else {
     switch (e.type) {
       case DioExceptionType.cancel:
-        message = 'So\'rov bekor qilindi.';
-        print('So\'rov bekor qilindi: ${e.message}');
+        message = 'Request was canceled.';
+        print('Request canceled: ${e.message}');
         break;
       case DioExceptionType.connectionTimeout:
-        message = 'Ulanish vaqtida xato.';
-        print('Ulanish vaqtida xato: ${e.message}');
+        message = 'Connection timeout.';
+        print('Connection timeout: ${e.message}');
         break;
       case DioExceptionType.sendTimeout:
-        message = 'Yuborish vaqtida xato.';
-        print('Yuborish vaqtida xato: ${e.message}');
+        message = 'Send timeout.';
+        print('Send timeout: ${e.message}');
         break;
       case DioExceptionType.receiveTimeout:
-        message = 'Qabul qilish vaqtida xato.';
-        print('Qabul qilish vaqtida xato: ${e.message}');
+        message = 'Receive timeout.';
+        print('Receive timeout: ${e.message}');
         break;
       case DioExceptionType.connectionError:
-        message = "Internet aloqasi yo'q";
-        print("Internet aloqasi yo'q ${e}");
+        message = "No internet connection";
+        print("No internet connection ${e}");
         break;
       case DioExceptionType.badResponse:
-        message = 'Yomon javob';
-        print('Yomon javob: ${e.message}');
+        message = 'Bad response';
+        print('Bad response: ${e.message}');
         break;
       default:
-        message = 'Negadur internet aloqasi juda past';
+        message = 'Internet connection is very poor';
         break;
     }
   }

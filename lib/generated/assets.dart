@@ -7,6 +7,7 @@ class Assets {
   static const String facedidScan = 'assets/facedid/scan.png';
   static const String facedidScanning = 'assets/facedid/scanning.png';
   static const String loginLogin = 'assets/login/login.png';
+  static const String logoLogo = 'assets/logo/logo.png';
   static const String verificationVerification = 'assets/verification/verification.png';
 
 }

@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:camera/camera.dart';
+import 'package:face/features/camera/presentation/widgets.dart';
 import 'package:face/features/display/display.dart';
-import 'package:face/main2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:face/features/camera/presentation/cubit/post_cubit.dart';

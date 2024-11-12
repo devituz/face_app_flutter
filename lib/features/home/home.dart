@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:face/constants/colors.dart';
+import 'package:face/constants/helpers.dart';
 import 'package:face/features/home/cubit/getstudents/getmestudent_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,13 +24,15 @@ class _MainPageState extends State<MainPage> {
     context.read<GetmestudentCubit>().GetmeStudents(context);
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppStyles.oq,
       body: RefreshIndicator(
         backgroundColor: AppStyles.myColor,
-        color: AppStyles.myColor,
+        color: AppStyles.oq,
         onRefresh: () => _refresh(),
         child: BlocBuilder<GetmestudentCubit, GetmestudentState>(
           builder: (context, state) {
@@ -89,6 +92,7 @@ class _MainPageState extends State<MainPage> {
                             ),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 const SizedBox(width: 5),
                                 Text(
@@ -117,15 +121,31 @@ class _MainPageState extends State<MainPage> {
                                 ),
                                 const SizedBox(width: 13),
                                 Expanded(
-                                  child: Text(
-                                    student.studentName.toString(),
-                                    style: GoogleFonts.exo2(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        student.studentName.toString(),
+                                        style: GoogleFonts.exo2(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      SizedBox(height: 5,),
+                                      Text(
+                                        Helpers.formatDate(student.createdAt.toString()),
+                                        style: GoogleFonts.exo2(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
+
                               ],
                             ),
                           ),

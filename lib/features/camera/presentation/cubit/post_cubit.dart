@@ -33,24 +33,16 @@ class PostCubit extends Cubit<PostState> {
         context: context,
       );
       print("object");
-      // Explicitly check if the 'name' or 'file' are null or missing
-      // if (response['name'] == null || response['file'] == null) {
-      //   throw Exception('Missing name or file data');
-      // }
       emit(PostState.success(response['name'], response['file']));
 
     } catch (e) {
-      Navigator.pop(context);
-      debugPrint("Error: ${e.toString()}");
-      emit(const PostState.error('Candidate not found'));
-    }
-    if (!kIsWeb) {
       await Vibration.vibrate(
         pattern: [0, 500, 100, 500],
         intensities: [255, 255],
       );
-    } else {
-      print("Vibration is not supported on the web.");
+      Navigator.pop(context);
+      debugPrint("Error: ${e.toString()}");
+      emit(const PostState.error('Candidate not found'));
     }
 
   }
