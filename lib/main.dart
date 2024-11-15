@@ -27,9 +27,6 @@ void main() async {
   await dotenv.load(fileName: 'lib/constants/.env');
 }
 
-// Future<void> _requestPermissions() async {
-//   await Permission.camera.request();
-// }
 
 class MyApp extends StatelessWidget {
   @override
