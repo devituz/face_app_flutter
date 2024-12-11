@@ -75,7 +75,7 @@ class ImageDisplayPage extends StatelessWidget {
                       height: screenWidth * 0.60,
                       fit: BoxFit.cover,
                       placeholder: (context, url) =>
-                          const CircularProgressIndicator(),
+                          const CircularProgressIndicator(color: AppStyles.myColor,),
                       // Yuklash vaqtida ko'rsatiladigan indikator
                       errorWidget: (context, url, error) => const Icon(Icons
                           .error), // Xato yuz berganda ko'rsatiladigan ikonka

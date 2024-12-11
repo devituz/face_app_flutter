@@ -14,6 +14,8 @@ List<CameraDescription> cameras = [];
 CameraController? _controller;
 
 class CameraPage extends StatefulWidget {
+  const CameraPage({super.key});
+
   @override
   _CameraPageState createState() => _CameraPageState();
 }

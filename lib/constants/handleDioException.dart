@@ -21,6 +21,7 @@ Future<String> handleDioException(DioException e, BuildContext context) async {
 
       case 403:
         message = 'Forbidden';
+        await Helpers.removeToken(context);
         print('Forbidden: ${e.response?.data}');
         break;
       case 404:
@@ -39,14 +40,9 @@ Future<String> handleDioException(DioException e, BuildContext context) async {
         break;
       case 500:
         message = 'Login redirect';
+        await Helpers.removeToken(context);
         print(
             'Internal server error: ${e.response?.statusCode} ${e.response?.data}');
-        if (e.response?.data.contains('Route [login] not defined')) {
-          await Helpers.removeToken(context);
-
-          print('Undefined login route: ${e.response?.data}');
-          // Redirect to login or handle accordingly
-        }
         break;
       default:
         message = 'Unexpected status code';

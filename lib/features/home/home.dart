@@ -9,7 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 class MainPage extends StatefulWidget {
   @override
   State<MainPage> createState() => _MainPageState();
-}
+  }
 
 class _MainPageState extends State<MainPage> {
 
@@ -156,7 +156,7 @@ class _MainPageState extends State<MainPage> {
                   ),
                 ],
               ),
-              failure: (failureState) => Center(child: Text("No candidates available",  style:  GoogleFonts.exo2(color: Colors.white,fontSize: 20),)),
+              failure: (failureState) => Center(child: Text("No candidates available",  style:  GoogleFonts.exo2(color: AppStyles.myColor,fontSize: 20),)),
             );
           },
         ),

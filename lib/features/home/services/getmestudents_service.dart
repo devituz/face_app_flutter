@@ -36,7 +36,7 @@ class GetmestudentsService{
         print(response.data);
         return Getmestudents.fromJson(response.data);
       } else {
-        // Helpers.showCustomSnackBar(context, responseMessage ?? 'Xatolik yuz berdi');
+        Helpers.showCustomSnackBar(context, responseMessage ?? 'Xatolik yuz berdi');
         throw Exception('Failed to load categories'); // Xatolik holatida istisno tashlash
       }
     } on DioError catch (e) {
@@ -46,7 +46,7 @@ class GetmestudentsService{
     } catch (e) {
       Helpers.showCustomSnackBar(context, 'Unknown error');
       print('Noma\'lum xato: $e');
-      throw Exception('Failed to load categories'); // Xatolik holatida istisno tashlash
+      throw Exception('Unknown error'); // Xatolik holatida istisno tashlash
     }
   }
 

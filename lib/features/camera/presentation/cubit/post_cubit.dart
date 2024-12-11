@@ -3,10 +3,13 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:face/features/camera/presentation/service/camera.dart';
 import 'package:vibration/vibration.dart';
-import 'package:flutter/foundation.dart'; // kIsWeb uchun
+import 'package:flutter/foundation.dart';
+
+import '../../../home/cubit/getstudents/getmestudent_cubit.dart'; // kIsWeb uchun
 
 part 'post_state.dart';
 part 'post_cubit.freezed.dart';
@@ -34,6 +37,7 @@ class PostCubit extends Cubit<PostState> {
       );
       print("object");
       emit(PostState.success(response['name'], response['file']));
+      context.read<GetmestudentCubit>().GetmeStudents(context);
 
     } catch (e) {
       await Vibration.vibrate(
